@@ -1,20 +1,37 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Html2canvasService } from './services/html2canvas.service';
 import { PicaService } from './services/pica.service';
 import { mimeTypes } from './shared/types';
+import { recommendedResolution } from './shared/types';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [CommonModule, RouterOutlet],
+	imports: [CommonModule, RouterOutlet, FormsModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 	@ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
-	@ViewChild('container', { static: false }) container!: ElementRef<HTMLElement>;
+	@ViewChild('container', { static: false }) container!: ElementRef<HTMLInputElement>;
+
+	recommendedResolution = recommendedResolution;
+	mimeTypes = Object.entries(mimeTypes);
+
+	inputWidth: number = 1280;
+	inputHeight: number = 720;
+	inputXOffSet: number = 0;
+	inputYOffSet: number = 0;
+	compressRatio: number = 0;
+	scaleRatio: number = 1;
+	exportType: string = mimeTypes.png;
+
+	get quality(): number {
+		return (100 - this.compressRatio) / 100;
+	}
 
 	constructor(
 		private html2canvasService: Html2canvasService,
@@ -24,8 +41,13 @@ export class AppComponent implements OnInit {
 	ngOnInit(): void {
 	}
 
-	downloadImage(width?: number, height?: number, xOffSet?: number, yOffSet?: number) {
-		this.html2canvasService.downloadImage(this.canvas.nativeElement, 'image', mimeTypes.png, width, height, xOffSet, yOffSet);
+	setResolution(width: number, height: number) {
+		this.inputWidth = width;
+		this.inputHeight = height;
+	}
+
+	downloadImage() {
+		this.html2canvasService.downloadImage(this.canvas.nativeElement, 'cropy-image', this.exportType, this.canvas.nativeElement.width, this.canvas.nativeElement.height, this.inputXOffSet, this.inputYOffSet);
 	}
 
 	onFileSelected(event: Event) {
@@ -37,14 +59,16 @@ export class AppComponent implements OnInit {
 		const reader = new FileReader();
 		reader.onload = (e: ProgressEvent<FileReader>) => {
 			const img = new Image();
-			img.onload = () => this.resizeImage(img, 1000, 1000, 0.9);
+			img.onload = () => this.resizeImage(img, this.quality);
 			img.src = e.target?.result as string;
+			this.container.nativeElement.src = img.src;
 		};
 		reader.readAsDataURL(file);
 	}
 
-	resizeImage(img: HTMLImageElement, reWidth: number, reHeight: number, quality: number) {
-		this.picaService.resizeImage(img, this.canvas.nativeElement, mimeTypes.png, reWidth, reHeight, quality);
+	resizeImage(img: HTMLImageElement, quality: number) {
+		this.scaleRatio = Math.min(this.inputWidth / img.width, this.inputHeight / img.height);
+		this.picaService.resizeImage(img, this.canvas.nativeElement, mimeTypes.png, this.scaleRatio, quality);
 	}
 
 }

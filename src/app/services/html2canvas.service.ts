@@ -12,7 +12,7 @@ export class Html2canvasService {
     downloadImage(
         element: HTMLElement, 
         filename: string = 'image',
-        mimeType: mimeTypes = mimeTypes.png,
+        mimeType: string = mimeTypes.png,
         canvasWidth?: number,
         canvasHeight?: number,
         xOffSet?: number,

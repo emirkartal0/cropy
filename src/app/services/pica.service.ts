@@ -17,22 +17,20 @@ export class PicaService {
         img: HTMLImageElement, 
         canvas: HTMLCanvasElement, 
         mimeType: mimeTypes = mimeTypes.jpg, 
-        reWidth: number, 
-        reHeight: number, 
-        quality: number = 0.9
+        scaleRatio: number,
+        quality: number = 1
     ) {
-        const canvasEl = canvas;
-        canvasEl.width = reWidth; 
-        canvasEl.height = reHeight; 
+        canvas.width = img.width * scaleRatio; 
+        canvas.height = img.height * scaleRatio; 
 
-        this.pica.resize(img, canvasEl)
+        this.pica.resize(img, canvas)
             .then(result => this.pica.toBlob(result, mimeType, quality))
-            .then(blob => {
+            /* .then(blob => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'resized-image.jpg';
+                link.download = 'resized-image';
                 link.click();
-            })
+            }) */
             .catch(error => console.error('error', error));
     }
 
