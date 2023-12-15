@@ -1,9 +1,11 @@
 <h1 class="text-3xl font-bold underline">
-  Hello world! Emir
+    Hello world! Emir
 </h1>
 
-<div id="container" class="w-80 h-80 bg-cyan-600"> 
+<div #container id="container" class="w-80 h-80 bg-cyan-600"> </div>
 
-</div>
-
+<input type="file" (change)="onFileSelected($event)">
+<canvas #canvas></canvas>
+<button (click)="downloadImage()">Resmi İndir</button>
+<br>
 <button (click)="downloadImage()"> ss al</button>

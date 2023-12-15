@@ -1,6 +1,6 @@
 export enum mimeTypes {
-    png = ".png",
-    jpg = ".jpeg",
-    heic = ".heic",
-    webp = ".webp"
+    png = "image/png",
+    jpg = "image/jpeg",
+    heic = "image/heic",
+    webp = "image/webp"
 }
