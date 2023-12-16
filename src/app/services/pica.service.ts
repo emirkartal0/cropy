@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import Pica from 'pica';
-import { Html2canvasService } from './html2canvas.service';
 import { mimeTypes } from '../shared/types';
+import Pica from 'pica';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -9,9 +9,7 @@ export class PicaService {
 
     pica = Pica();
 
-    constructor(
-        private html2canvasService: Html2canvasService,
-    ) { }
+    constructor() { }
 
     resizeImage(
         img: HTMLImageElement, 
@@ -25,13 +23,7 @@ export class PicaService {
 
         this.pica.resize(img, canvas)
             .then(result => this.pica.toBlob(result, mimeType, quality))
-            /* .then(blob => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'resized-image';
-                link.click();
-            }) */
-            .catch(error => console.error('error', error));
+            .catch(error => console.error('image resize error', error));
     }
 
 }

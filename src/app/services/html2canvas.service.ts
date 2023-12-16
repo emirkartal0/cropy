@@ -15,8 +15,8 @@ export class Html2canvasService {
         mimeType: string = mimeTypes.png,
         canvasWidth?: number,
         canvasHeight?: number,
-        xOffSet?: number,
-        yOffSet?: number,
+        xOffSet: number = 0,
+        yOffSet: number = 0,
     ) {
         html2canvas(element, { scale:1, width: canvasWidth, height: canvasHeight, x: xOffSet, y: yOffSet }).then(canvas => {
             const link = document.createElement('a');
