@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cropyai-task": {
+    "image-editor": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/cropyai-task",
+            "outputPath": "dist/image-editor",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -57,10 +57,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "cropyai-task:build:production"
+              "buildTarget": "image-editor:build:production"
             },
             "development": {
-              "buildTarget": "cropyai-task:build:development"
+              "buildTarget": "image-editor:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -68,7 +68,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "cropyai-task:build"
+            "buildTarget": "image-editor:build"
           }
         },
         "test": {
