@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 
 	downloadImage() {
 		if (this.aspectRatioHeight == 1) {
-			this.html2canvasService.downloadImage(this.canvas.nativeElement, 'cropy-image', this.exportType, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+			this.html2canvasService.downloadImage(this.canvas.nativeElement, 'resized-image', this.exportType, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
 			return;
 		}
 		let aspectRatio: aspectRatio = recommendedRatio[0];
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
 		});
 		cropMultiplier = this.canvas.nativeElement.width / aspectRatio.width;
 		this.inputXOffSet = (this.canvas.nativeElement.width - (aspectRatio.width * cropMultiplier)) / 2;
-		this.html2canvasService.downloadImage(this.canvas.nativeElement, 'cropy-image', this.exportType, this.canvas.nativeElement.width - (this.inputXOffSet * 2), aspectRatio.height * cropMultiplier, this.inputXOffSet, this.inputYOffSet);
+		this.html2canvasService.downloadImage(this.canvas.nativeElement, 'crop-image', this.exportType, this.canvas.nativeElement.width - (this.inputXOffSet * 2), aspectRatio.height * cropMultiplier, this.inputXOffSet, this.inputYOffSet);
 	}
 
 	onFileSelected(event: Event) {
